@@ -73,8 +73,8 @@ st.markdown("<h1 style='font-size:1.5em;'>Our Clients</h1>", unsafe_allow_html=T
 # List of logos with their URLs
 logos = {
     'United Supermarkets': 'https://raw.github.com/RP-Hawkeyes/UPC-Concatenation-App/main/United_Supermarkets_Logo.png',
-    'MarketStreet': 'https://raw.github.com/SanthoshDhamodharan/UPC-Concatenation-App/main/MarketStreet_Logo.png',
-    'Albertsons Market': 'https://raw.github.com/RP-Hawkeyes/UPC-Concatenation-App/main/MarketStreet_Logo.png',
+    'MarketStreet': 'https://raw.github.com/RP-Hawkeyes/UPC-Concatenation-App/main/MarketStreet_Logo.png',
+    'Albertsons Market': 'https://raw.github.com/RP-Hawkeyes/UPC-Concatenation-App/main/Albertsons_Market_Logo.png',
     'Amigos': 'https://raw.github.com/RP-Hawkeyes/UPC-Concatenation-App/main/Amigos_Logo.png',
 }
 
