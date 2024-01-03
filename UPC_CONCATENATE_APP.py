@@ -130,7 +130,7 @@ if st.button("Click to Process Data"):
                 st.markdown(get_binary_file_downloader_html(temp_file_path, "{}.xlsx".format(file_name_placeholder.strip())), unsafe_allow_html=True)
 
         except Exception as e:
-            st.warning("Please provide valid input for all fields.")
+            st.warning("Please provide valid input for all field.")
             
 
 
