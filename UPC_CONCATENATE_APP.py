@@ -24,7 +24,7 @@ def get_binary_file_downloader_html(file_path, file_label):
 # Function to clean and preprocess the data
 def preprocess_data(df, offer_id_column, barcode_column):
     df[offer_id_column] = df[offer_id_column].str.strip()
-    df[barcode_column] = df[barcode_column].apply(lambda x: '{:.0f}'.format(x).zfill(14))
+    df[barcode_column] = df[barcode_column].apply(lambda x: '{:.0f}'.format(x).zfill(14) if pd.notna(x) else '')
     df_unique = df.drop_duplicates(subset=[offer_id_column, barcode_column])
     new_df = df_unique.groupby(offer_id_column)[barcode_column].apply(lambda x: ','.join(x)).reset_index()
     return new_df
