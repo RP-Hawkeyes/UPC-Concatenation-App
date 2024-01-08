@@ -63,8 +63,8 @@ st.markdown("""
 
 # Logo container for "digitaledition"
 st.markdown('<div class="logo-container">'
-            '<div class="top-left-logo"><img src="https://www.digitaledition.net/themes/custom/epublications/digicomlogo.png" alt="Red Pepper Digital Logo"></div>'
-            '<div class="top-right-logo"><img src="https://www.digitaledition.net/themes/custom/epublications/digicomlogo.png" alt="Red Pepper Digital Logo"></div>'
+            '<div class="top-left-logo"><img src="https://app.redpepperdigital.net/themes/custom/epublications/logo.png" alt="Red Pepper Digital Logo"></div>'
+            '<div class="top-right-logo"><img src="https://app.redpepperdigital.net/themes/custom/epublications/logo.png" alt="Red Pepper Digital Logo"></div>'
             '</div>', unsafe_allow_html=True)
 
 # Set the title with reduced font size
