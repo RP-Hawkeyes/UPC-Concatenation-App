@@ -132,7 +132,7 @@ if st.button("Click to Process Data"):
         except Exception as e:
             st.warning("Please provide valid input for all fields.")
             
-Copyright statement at the lower bottom with center alignment
+#Copyright statement at the lower bottom with center alignment
 st.markdown("<br><br><br><br><br><br><hr><p style='text-align:center; font-size:0.8em;'><strong>© 2024 Redpepper Digital. All rights reserved.</strong></p>", unsafe_allow_html=True)
 
 # In[ ]:
