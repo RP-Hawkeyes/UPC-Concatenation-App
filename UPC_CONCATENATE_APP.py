@@ -63,8 +63,8 @@ st.markdown("""
 
 # Logo container for "digitaledition"
 st.markdown('<div class="logo-container">'
-            '<div class="top-left-logo"><img src="https://app.redpepperdigital.net/themes/custom/epublications/logo.png" alt="Red Pepper Digital Logo"></div>'
-            '<div class="top-right-logo"><img src="https://app.redpepperdigital.net/themes/custom/epublications/logo.png" alt="Red Pepper Digital Logo"></div>'
+            '<div class="top-left-logo"><img src="https://www.digitaledition.net/themes/custom/epublications/digicomlogo.png" alt="Digital Edition Logo"></div>'
+            '<div class="top-right-logo"><img src="https://www.digitaledition.net/themes/custom/epublications/digicomlogo.png" alt="Digital Edition Logo"></div>'
             '</div>', unsafe_allow_html=True)
 
 # Set the title with reduced font size
@@ -73,9 +73,9 @@ st.markdown("<h1 style='font-size:1.5em;'>Our Clients</h1>", unsafe_allow_html=T
 # List of logos with their URLs
 logos = {
     'United Supermarkets': 'https://www.unitedsupermarkets.com/Themes/United5/Content/Images/Default-Logo.png',
-    'MarketStreet': 'raw.https://github.com/RP-Hawkeyes/UPC-Concatenation-App/main/MarketStreet_Logo.png',
-    'Albertsons Market': 'https://raw.github.com/RP-Hawkeyes/UPC-Concatenation-App/main/Albertsons_Market_Logo.png',
-    'Amigos': 'https://raw.github.com/RP-Hawkeyes/UPC-Concatenation-App/main/Amigos_Logo.png',
+    'MarketStreet': 'https://www.marketstreetunited.com/Themes/MarketStreetUnited5/Content/Images/Default-Logo.png',
+    'Albertsons Market': 'https://www.albertsonsmarket.com/Themes/AlbertsonsMarket5/Content/Images/Default-Logo.png',
+    'Amigos': 'https://www.amigosunited.com/Themes/Amigos5/Content/Images/Default-Logo.png',
 }
 
 # Display logos side by side horizontally
