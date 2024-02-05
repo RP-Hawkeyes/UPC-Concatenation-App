@@ -11,9 +11,6 @@ import io
 import base64
 import tempfile
 
-# Set Streamlit configuration to run in headless mode
-st.set_option('server.headless', True)
-
 # Initialize session state
 state = st.session_state
 
