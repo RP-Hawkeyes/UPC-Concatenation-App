@@ -140,8 +140,13 @@ if st.button("Click to Process Data"):
                 # Provide a download link
                 st.markdown(get_binary_file_downloader_html(temp_file_path, "{}.xlsx".format(file_name_placeholder.strip())), unsafe_allow_html=True)
 
+           # Display balloons indicating success
+            st.balloons()
+
         except Exception as e:
             st.warning("Please provide valid input for all fields.")
+            # Display sad smiley indicating failure
+            st.error("Data processing failed. Please check your input.")
             
 #Copyright statement at the lower bottom with center alignment
 st.markdown("<br><br><br><br><br><br><hr><p style='text-align:center; font-size:0.8em;'><strong>© 2024 Redpepper Digital. All rights reserved.</strong></p>", unsafe_allow_html=True)
