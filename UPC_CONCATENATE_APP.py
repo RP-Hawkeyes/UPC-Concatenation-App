@@ -139,6 +139,26 @@ if st.button("Click to Process Data"):
 
                 # Provide a download link
                 st.markdown(get_binary_file_downloader_html(temp_file_path, "{}.xlsx".format(file_name_placeholder.strip())), unsafe_allow_html=True)
+             # Display custom animation (color paper flying)
+            custom_animation_html = """
+            <style>
+              @keyframes flyingPaper {
+                0% { transform: translateY(0); }
+                100% { transform: translateY(-100vh); }
+              }
+              .paper {
+                position: fixed;
+                left: calc(50% - 10px);
+                width: 20px;
+                height: 20px;
+                background-color: #ff0000; /* Red color for paper */
+                border-radius: 50%;
+                animation: flyingPaper 3s linear infinite;
+              }
+            </style>
+            <div class="paper"></div>
+            """
+            st.markdown(custom_animation_html, unsafe_allow_html=True)
 
            # After successful data processing, display confetti animation
             st.success("Data processed successfully! 🎉")
