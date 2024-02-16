@@ -143,9 +143,6 @@ if st.button("Click to Process Data"):
            # After successful data processing, display confetti animation
             st.success("Data processed successfully! 🎉")
 
-           # If there's an exception during data processing, display sad emoji animation
-            st.error("Data processing failed. Please check your input. 😔")
-
         except Exception as e:
             st.warning("Please provide valid input for all fields. ⚠️")
             
