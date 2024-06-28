@@ -120,7 +120,10 @@ if st.button("Click to Process Data"):
             if file_extension in [".xlsx", ".xls"]:
                 df = pd.read_excel(uploaded_file)
             elif file_extension == ".csv":
-                df = pd.read_csv(uploaded_file)
+                try:
+                    df = pd.read_csv(uploaded_file, encoding='utf-8')
+                except UnicodeDecodeError:
+                    df = pd.read_csv(uploaded_file, encoding='ISO-8859-1')
             else:
                 st.warning("Unsupported file format. Please upload an Excel or CSV file. ⚠️")
                 st.stop()
