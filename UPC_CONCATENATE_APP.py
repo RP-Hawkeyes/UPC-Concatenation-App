@@ -98,7 +98,7 @@ st.markdown(logo_html, unsafe_allow_html=True)
 st.title('UPC Concatenation App')
 
 # File upload section with hidden default uploader
-uploaded_file = st.file_uploader("Upload Excel File", type=["xlsx", "xls"], key="fileuploader", accept_multiple_files=False)
+uploaded_file = st.file_uploader("Upload Excel File", type=["xlsx", "xls", "csv"], key="fileuploader", accept_multiple_files=False)
 
 # User input for column names
 st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which title is given in your dataset:</b></div>", unsafe_allow_html=True)
