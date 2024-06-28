@@ -131,6 +131,11 @@ if st.button("Click to Process Data"):
             st.write("File loaded successfully!")
             st.write(f"Columns in the file: {list(df.columns)}")
 
+            # Check if the specified columns exist in the dataframe
+            if offer_id_column not in df.columns or barcode_column not in df.columns:
+                st.warning(f"Column '{offer_id_column}' or '{barcode_column}' not found in the uploaded file. Please check the column names and try again. ⚠️")
+                st.stop()
+
             # Clean and preprocess the data
             df_processed = preprocess_data(df, offer_id_column, barcode_column)
 
