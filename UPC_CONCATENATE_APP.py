@@ -115,8 +115,15 @@ if st.button("Click to Process Data"):
     state.download_clicked = True
     if uploaded_file is not None and offer_id_column and barcode_column and file_name_placeholder:
         try:
-            # Load data from Excel
-            df = pd.read_excel(uploaded_file)
+            # Check the file extension and load data accordingly
+            file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+            if file_extension in [".xlsx", ".xls"]:
+                df = pd.read_excel(uploaded_file)
+            elif file_extension == ".csv":
+                df = pd.read_csv(uploaded_file)
+            else:
+                st.warning("Unsupported file format. Please upload an Excel or CSV file. ⚠️")
+                st.stop()
 
             # Clean and preprocess the data
             df_processed = preprocess_data(df, offer_id_column, barcode_column)
