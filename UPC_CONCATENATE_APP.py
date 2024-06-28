@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 import os
 import pandas as pd
 import streamlit as st
@@ -100,71 +97,77 @@ st.title('UPC Concatenation App')
 # File upload section with hidden default uploader
 uploaded_file = st.file_uploader("Upload Excel or CSV File", type=["xlsx", "xls", "csv"], key="fileuploader", accept_multiple_files=False)
 
-# User input for column names
-st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which title is given in your dataset:</b></div>", unsafe_allow_html=True)
-offer_id_column = st.text_input("", key="offer_id_column")
+if uploaded_file is not None:
+    try:
+        # Check the file extension and load data accordingly
+        file_extension = os.path.splitext(uploaded_file.name)[1].lower()
+        if file_extension in [".xlsx", ".xls"]:
+            df = pd.read_excel(uploaded_file)
+        elif file_extension == ".csv":
+            try:
+                df = pd.read_csv(uploaded_file, encoding='utf-8')
+            except UnicodeDecodeError:
+                df = pd.read_csv(uploaded_file, encoding='ISO-8859-1')
+        else:
+            st.warning("Unsupported file format. Please upload an Excel or CSV file. ⚠️")
+            st.stop()
 
-st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which UPC code is given in your dataset:</b></div>", unsafe_allow_html=True)
-barcode_column = st.text_input("", key="barcode_column")
+        st.write("File loaded successfully!")
+        st.write("Columns in the file:")
+        st.write(df.columns.tolist())
 
-# Placeholder for user-specified file name
-st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the desired file name (without extension):</b></div>", unsafe_allow_html=True)
-file_name_placeholder = st.text_input("", key="file_name_input")
+        # User input for column names
+        st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which title is given in your dataset:</b></div>", unsafe_allow_html=True)
+        offer_id_column = st.text_input("", key="offer_id_column")
 
-if st.button("Click to Process Data"):
-    state.download_clicked = True
-    if uploaded_file is not None and offer_id_column and barcode_column and file_name_placeholder:
-        try:
-            # Check the file extension and load data accordingly
-            file_extension = os.path.splitext(uploaded_file.name)[1].lower()
-            if file_extension in [".xlsx", ".xls"]:
-                df = pd.read_excel(uploaded_file)
-            elif file_extension == ".csv":
+        st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which UPC code is given in your dataset:</b></div>", unsafe_allow_html=True)
+        barcode_column = st.text_input("", key="barcode_column")
+
+        # Placeholder for user-specified file name
+        st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the desired file name (without extension):</b></div>", unsafe_allow_html=True)
+        file_name_placeholder = st.text_input("", key="file_name_input")
+
+        if st.button("Click to Process Data"):
+            if offer_id_column and barcode_column and file_name_placeholder:
                 try:
-                    df = pd.read_csv(uploaded_file, encoding='utf-8')
-                except UnicodeDecodeError:
-                    df = pd.read_csv(uploaded_file, encoding='ISO-8859-1')
+                    # Check if the specified columns exist in the dataframe
+                    if offer_id_column not in df.columns or barcode_column not in df.columns:
+                        st.warning(f"Column '{offer_id_column}' or '{barcode_column}' not found in the uploaded file. Please check the column names and try again. ⚠️")
+                        st.stop()
+
+                    # Clean and preprocess the data
+                    df_processed = preprocess_data(df, offer_id_column, barcode_column)
+
+                    # Display processed data
+                    st.dataframe(df_processed)
+
+                    # Create an in-memory Excel file
+                    excel_data = io.BytesIO()
+                    df_processed.to_excel(excel_data, index=False, engine='openpyxl')
+
+                    # Save the Excel file to a temporary directory
+                    with tempfile.TemporaryDirectory() as temp_dir:
+                        temp_file_path = os.path.join(temp_dir, "{}.xlsx".format(file_name_placeholder.strip()))
+                        with open(temp_file_path, "wb") as f:
+                            f.write(excel_data.getvalue())
+
+                        # Provide a message to the user
+                        st.write("File '{}.xlsx' has been created.".format(file_name_placeholder.strip()))
+
+                        # Provide a download link
+                        st.markdown(get_binary_file_downloader_html(temp_file_path, "{}.xlsx".format(file_name_placeholder.strip())), unsafe_allow_html=True)
+                    
+                    # After successful data processing, display confetti animation
+                    st.success("Data processed successfully! 🎉")
+
+                except Exception as e:
+                    st.warning("Please provide valid input for all fields. ⚠️")
+                    st.error(f"An error occurred: {e}")
             else:
-                st.warning("Unsupported file format. Please upload an Excel or CSV file. ⚠️")
-                st.stop()
+                st.warning("Please provide valid input for all fields. ⚠️")
+    except Exception as e:
+        st.error(f"An error occurred while loading the file: {e}")
 
-            st.write("File loaded successfully!")
-            st.write(f"Columns in the file: {list(df.columns)}")
-
-            # Check if the specified columns exist in the dataframe
-            if offer_id_column not in df.columns or barcode_column not in df.columns:
-                st.warning(f"Column '{offer_id_column}' or '{barcode_column}' not found in the uploaded file. Please check the column names and try again. ⚠️")
-                st.stop()
-
-            # Clean and preprocess the data
-            df_processed = preprocess_data(df, offer_id_column, barcode_column)
-
-            # Display processed data
-            st.dataframe(df_processed)
-
-            # Create an in-memory Excel file
-            excel_data = io.BytesIO()
-            df_processed.to_excel(excel_data, index=False, engine='openpyxl')
-
-            # Save the Excel file to a temporary directory
-            with tempfile.TemporaryDirectory() as temp_dir:
-                temp_file_path = os.path.join(temp_dir, "{}.xlsx".format(file_name_placeholder.strip()))
-                with open(temp_file_path, "wb") as f:
-                    f.write(excel_data.getvalue())
-
-                # Provide a message to the user
-                st.write("File '{}.xlsx' has been created.".format(file_name_placeholder.strip()))
-
-                # Provide a download link
-                st.markdown(get_binary_file_downloader_html(temp_file_path, "{}.xlsx".format(file_name_placeholder.strip())), unsafe_allow_html=True)
-            
-            # After successful data processing, display confetti animation
-            st.success("Data processed successfully! 🎉")
-
-        except Exception as e:
-            st.warning("Please provide valid input for all fields. ⚠️")
-            st.error(f"An error occurred: {e}")
-            
 # Copyright statement at the lower bottom with center alignment
 st.markdown("<br><br><br><br><br><br><hr><p style='text-align:center; font-size:0.8em;'><strong>© 2024 Redpepper Digital. All rights reserved.</strong></p>", unsafe_allow_html=True)
 
