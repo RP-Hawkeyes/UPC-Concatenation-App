@@ -125,6 +125,9 @@ if st.button("Click to Process Data"):
                 st.warning("Unsupported file format. Please upload an Excel or CSV file. ⚠️")
                 st.stop()
 
+            st.write("File loaded successfully!")
+            st.write(f"Columns in the file: {list(df.columns)}")
+
             # Clean and preprocess the data
             df_processed = preprocess_data(df, offer_id_column, barcode_column)
 
@@ -147,17 +150,14 @@ if st.button("Click to Process Data"):
                 # Provide a download link
                 st.markdown(get_binary_file_downloader_html(temp_file_path, "{}.xlsx".format(file_name_placeholder.strip())), unsafe_allow_html=True)
             
-           # After successful data processing, display confetti animation
+            # After successful data processing, display confetti animation
             st.success("Data processed successfully! 🎉")
 
         except Exception as e:
             st.warning("Please provide valid input for all fields. ⚠️")
+            st.error(f"An error occurred: {e}")
             
-#Copyright statement at the lower bottom with center alignment
+# Copyright statement at the lower bottom with center alignment
 st.markdown("<br><br><br><br><br><br><hr><p style='text-align:center; font-size:0.8em;'><strong>© 2024 Redpepper Digital. All rights reserved.</strong></p>", unsafe_allow_html=True)
 
 # In[ ]:
-
-
-
-
