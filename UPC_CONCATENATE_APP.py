@@ -23,7 +23,13 @@ def preprocess_data(df, offer_id_column, barcode_column):
     df[offer_id_column] = df[offer_id_column].str.strip().replace('\s+', ' ', regex=True)
     df[barcode_column] = df[barcode_column].apply(lambda x: '{:.0f}'.format(x).zfill(14) if pd.notna(x) else '')
     df_unique = df.drop_duplicates(subset=[offer_id_column, barcode_column])
-    new_df = df_unique.groupby(offer_id_column)[barcode_column].apply(lambda x: ','.join(x)).reset_index()
+
+    # Group by offer_id and consolidate both barcode and offer_id with comma separation
+    new_df = df_unique.groupby(offer_id_column).agg({
+        barcode_column: lambda x: ','.join(x),
+        offer_id_column: lambda x: ','.join(x.unique())
+    }).reset_index(drop=True)
+
     return new_df
 
 # Set wider layout
