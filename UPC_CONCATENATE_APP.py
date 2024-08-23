@@ -23,13 +23,8 @@ def preprocess_data(df, offer_id_column, barcode_column):
     df[offer_id_column] = df[offer_id_column].str.strip().replace('\s+', ' ', regex=True)
     df[barcode_column] = df[barcode_column].apply(lambda x: '{:.0f}'.format(x).zfill(14) if pd.notna(x) else '')
     df_unique = df.drop_duplicates(subset=[offer_id_column, barcode_column])
-
-    # Group by offer_id and consolidate both barcode and offer_id with comma separation
-    new_df = df_unique.groupby(offer_id_column).agg({
-        barcode_column: lambda x: ','.join(x),
-        offer_id_column: lambda x: ','.join(x.unique())
-    }).reset_index(drop=True)
-
+    new_df = df_unique.groupby(offer_id_column)[barcode_column].apply(lambda x: ','.join(x)).reset_index()
+    new_df['offer_id'] = new_df.index + 1  # Assign an offer_id
     return new_df
 
 # Set wider layout
@@ -143,13 +138,13 @@ if st.button("Click to Process Data"):
                 # Provide a download link
                 st.markdown(get_binary_file_downloader_html(temp_file_path, "{}.xlsx".format(file_name_placeholder.strip())), unsafe_allow_html=True)
             
-           # After successful data processing, display confetti animation
+            # After successful data processing, display confetti animation
             st.success("Data processed successfully! 🎉")
 
         except Exception as e:
             st.warning("Please provide valid input for all fields. ⚠️")
             
-#Copyright statement at the lower bottom with center alignment
+# Copyright statement at the lower bottom with center alignment
 st.markdown("<br><br><br><br><br><br><hr><p style='text-align:center; font-size:0.8em;'><strong>© 2024 Redpepper Digital. All rights reserved.</strong></p>", unsafe_allow_html=True)
 
 # In[ ]:
