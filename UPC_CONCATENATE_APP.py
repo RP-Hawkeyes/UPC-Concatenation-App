@@ -19,11 +19,15 @@ def get_binary_file_downloader_html(file_path, file_label):
     return '<a href="data:application/octet-stream;base64,{}" download="{}">Click here to download {}</a>'.format(b64, file_label, file_label)
 
 # Function to clean and preprocess the data
-def preprocess_data(df, offer_id_column, barcode_column):
-    df[offer_id_column] = df[offer_id_column].str.strip().replace('\s+', ' ', regex=True)
-    df[barcode_column] = df[barcode_column].apply(lambda x: '{:.0f}'.format(x).zfill(14) if pd.notna(x) else '')
-    df_unique = df.drop_duplicates(subset=[offer_id_column, barcode_column])
-    new_df = df_unique.groupby(offer_id_column)[barcode_column].apply(lambda x: ','.join(x)).reset_index()
+def preprocess_data(df, offer_headline_column, _14_char_barcode_column, offer_id_column):
+    df[offer_headline_column] = df[offer_headline_column].str.strip().replace('\s+', ' ', regex=True)
+    df[_14_char_barcode_column] = df[_14_char_barcode_column].apply(lambda x: '{:.0f}'.format(x).zfill(14) if pd.notna(x) else '')
+    df_unique = df.drop_duplicates(subset=[offer_headline_column, _14_char_barcode_column, offer_id_column]])
+    new_df = df_unique.groupby(offer_headline_column).agg({
+        _14_char_barcode: lambda x: ','.join(x),
+        offer_id_column: lambda x: ','.join(map(str, x))
+    }).reset_index()
+    
     return new_df
 
 # Set wider layout
@@ -99,10 +103,13 @@ uploaded_file = st.file_uploader("Upload Excel File", type=["xlsx", "xls"], key=
 
 # User input for column names
 st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which title is given in your dataset:</b></div>", unsafe_allow_html=True)
-offer_id_column = st.text_input("", key="offer_id_column")
+offer_headline_column = st.text_input("", key="offer_headline_column")
 
 st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which UPC code is given in your dataset:</b></div>", unsafe_allow_html=True)
-barcode_column = st.text_input("", key="barcode_column")
+_14_char_barcode_column = st.text_input("", key="_14_char_barcode_column")
+
+st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which UPC code is given in your dataset:</b></div>", unsafe_allow_html=True)
+offer_id_column = st.text_input("", key="offer_id_column")
 
 # Placeholder for user-specified file name
 st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the desired file name (without extension):</b></div>", unsafe_allow_html=True)
@@ -110,13 +117,13 @@ file_name_placeholder = st.text_input("", key="file_name_input")
 
 if st.button("Click to Process Data"):
     state.download_clicked = True
-    if uploaded_file is not None and offer_id_column and barcode_column and file_name_placeholder:
+    if uploaded_file is not None and offer_headline_column and _14_char_barcode_column and offer_id_column and file_name_placeholder:
         try:
             # Load data from Excel
             df = pd.read_excel(uploaded_file)
 
             # Clean and preprocess the data
-            df_processed = preprocess_data(df, offer_id_column, barcode_column)
+            df_processed = preprocess_data(df, offer_headline_column, _14_char_barcode_column, offer_id_column)
 
             # Display processed data
             st.dataframe(df_processed)
