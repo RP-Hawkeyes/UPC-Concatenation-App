@@ -108,7 +108,7 @@ offer_headline_column = st.text_input("", key="offer_headline_column")
 st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which UPC code is given in your dataset:</b></div>", unsafe_allow_html=True)
 _14_char_barcode_column = st.text_input("", key="_14_char_barcode_column")
 
-st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which UPC code is given in your dataset:</b></div>", unsafe_allow_html=True)
+st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which Offer ID is given in your dataset:</b></div>", unsafe_allow_html=True)
 offer_id_column = st.text_input("", key="offer_id_column")
 
 # Placeholder for user-specified file name
