@@ -22,7 +22,7 @@ def get_binary_file_downloader_html(file_path, file_label):
 def preprocess_data(df, offer_headline_column, _14_char_barcode_column, offer_id_column):
     df[offer_headline_column] = df[offer_headline_column].str.strip().replace('\s+', ' ', regex=True)
     df[_14_char_barcode_column] = df[_14_char_barcode_column].apply(lambda x: '{:.0f}'.format(x).zfill(14) if pd.notna(x) else '')
-    df_unique = df.drop_duplicates(subset=[offer_headline_column, _14_char_barcode_column, offer_id_column]])
+    df_unique = df.drop_duplicates(subset=[offer_headline_column, _14_char_barcode_column, offer_id_column])
     new_df = df_unique.groupby(offer_headline_column).agg({
         _14_char_barcode: lambda x: ','.join(x),
         offer_id_column: lambda x: ','.join(map(str, x))
