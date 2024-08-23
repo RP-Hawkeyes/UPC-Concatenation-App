@@ -25,7 +25,7 @@ def preprocess_data(df, offer_id_column, barcode_column, promo_id_column):
     df_unique = df.drop_duplicates(subset=[offer_id_column, barcode_column, promo_id_column])
     new_df = df_unique.groupby(offer_id_column).agg({
         barcode_column: lambda x: ','.join(x),
-        promo_id_column: lambda x: ','.join(sorted(set(map(str, x))
+        promo_id_column: lambda x: ','.join(sorted(set(map(str, x))))
     }).reset_index()
     
     return new_df
