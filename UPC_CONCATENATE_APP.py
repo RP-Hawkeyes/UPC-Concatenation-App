@@ -30,6 +30,9 @@ def preprocess_data(df, offer_id_column, offer_headline_column, item_name_column
     
     # Group by 'offer_id_column' and 'offer_headline_column', joining barcodes as a comma-separated string, joining item names one by one
     new_df = df_unique.groupby([offer_id_column, offer_headline_column]).agg({barcode_column: lambda x: ','.join(x), item_name_column: lambda x: '\n'.join(x)}).reset_index()
+
+    # Predefined custom column names for the output file
+    new_df.columns = ["OFFER ID", "TITLE", "CONCATENATED FINAL UPC", "ITEM NAME"]
     
     return new_df
 
