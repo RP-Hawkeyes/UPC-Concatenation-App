@@ -111,13 +111,13 @@ uploaded_file = st.file_uploader("Upload Excel File", type=["xlsx", "xls"], key=
 st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which Offer ID is given in your dataset:</b></div>", unsafe_allow_html=True)
 offer_id_column = st.text_input("", key="offer_id_column")
 
-st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which title is given in your dataset:</b></div>", unsafe_allow_html=True)
+st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which Title is given in your dataset:</b></div>", unsafe_allow_html=True)
 offer_headline_column = st.text_input("", key="offer_headline_column")
 
 st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which Item Name is given in your dataset:</b></div>", unsafe_allow_html=True)
 item_name_column = st.text_input("", key="item_name_column")
 
-st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which UPC code is given in your dataset:</b></div>", unsafe_allow_html=True)
+st.markdown("<div style='font-family: Times New Roman, sans-serif; font-size: 16px;'><b>Enter the column name in which UPC Code is given in your dataset:</b></div>", unsafe_allow_html=True)
 barcode_column = st.text_input("", key="barcode_column")
 
 # Placeholder for user-specified file name
