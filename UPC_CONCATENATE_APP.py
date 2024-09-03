@@ -24,6 +24,9 @@ def preprocess_data(df, offer_id_column, offer_headline_column, item_name_column
     # Clean the 'offer_headline_column' and 'barcode_column'
     df[offer_headline_column] = df[offer_headline_column].str.strip().replace('\s+', ' ', regex=True)
     df[barcode_column] = df[barcode_column].apply(lambda x: '{:.0f}'.format(x).zfill(14) if pd.notna(x) else '')
+
+    # Drop rows with empty barcode values
+    df = df[df[barcode_column] != '']
     
     # Drop duplicates based on the specified columns
     df_unique = df.drop_duplicates(subset=[offer_id_column, offer_headline_column, barcode_column])
