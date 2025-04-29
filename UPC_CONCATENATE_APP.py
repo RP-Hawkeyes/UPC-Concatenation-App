@@ -134,6 +134,8 @@ if st.button("Click to Process Data"):
             # Load data from Excel
             df = pd.read_excel(uploaded_file)
 
+            st.write("Columns in uploaded file:", df.columns.tolist())
+
             # Clean and preprocess the data
             df_processed = preprocess_data(df, offer_id_column, offer_headline_column, item_name_column, barcode_column)
 
