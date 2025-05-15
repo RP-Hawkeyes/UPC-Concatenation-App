@@ -22,7 +22,9 @@ def get_binary_file_downloader_html(file_path, file_label):
 def preprocess_data(df, offer_id_column, offer_headline_column, item_name_column, barcode_column):
     # Clean the 'offer_headline_column' and 'barcode_column'
     df[offer_headline_column] = df[offer_headline_column].astype(str).str.strip().replace('\s+', ' ', regex=True)
-    df[barcode_column] = df[barcode_column].apply(lambda x: str(int(float(x))).zfill(14) if pd.notna(x) and str(x).strip().isdigit() else str(x).zfill(14))
+    df[barcode_column] = df[barcode_column].apply(
+    lambda x: str(int(x)).zfill(14) if pd.notna(x) and str(x).strip().replace('.', '').isdigit() else str(x).zfill(14)
+)
     
     # Drop rows with empty barcode values
     df = df[df[barcode_column] != '']
